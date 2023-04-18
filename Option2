@@ -27,9 +27,9 @@ int enb = 7;  //power 2
 
 //tolerance in degrees
 const double TOL = 12.0;
-const double COARSE_PIVOT = 210; //Changed
-const double FINE_PIVOT = 160;
-const double DEFAULT_SPEED = 210;
+const double COARSE_PIVOT = 180; //Changed -> og = 250
+const double FINE_PIVOT = 150; //Changed -> og = 160
+const double DEFAULT_SPEED = 180; //Changed
 
 const double UP = 90;
 const double DOWN = 270;
@@ -749,7 +749,7 @@ void brake() {
 }
 
 bool obstacle() {
-  if(readUltrasonicSensor() < 300.0) {
+  if(readUltrasonicSensor() < 15) {
     brake();
     return true;
   }
@@ -763,8 +763,9 @@ float readUltrasonicSensor() {
     digitalWrite(trigPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
-    
-    return pulseIn(echoPin, HIGH) * 0.34 / 2.0; //distance
+    duration = pulseIn(echoPin, HIGH);
+    return duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+    //return pulseIn(echoPin, HIGH) * 0.34 / 2.0; //distance
 }
 
 void dumbAvoid() {
